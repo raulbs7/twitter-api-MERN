@@ -9,6 +9,7 @@ require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var postsRouter = require('./routes/posts');
+const bodyParser = require('body-parser');
 
 var app = express();
 
@@ -29,6 +30,10 @@ app.use('/posts', postsRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.use(cors()); //nuevo
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 //Mongoose connection
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true })
